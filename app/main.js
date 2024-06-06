@@ -46,7 +46,7 @@ const server = net.createServer((socket) => {
               `HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
             );
           }
-          else {
+          else { // handling normal echo requests like curl -v http://localhost:4221/echo/blueberry
             socket.write(
               `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
             );
