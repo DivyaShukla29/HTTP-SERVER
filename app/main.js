@@ -45,7 +45,7 @@ const server = net.createServer((socket) => {
           if (encodingHeader.find(e => e.includes("gzip"))) {// adding content encoding header
             var genc = zlib.gzipSync(res);
             socket.write(
-              `HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: ${genc.length}\r\n\r\n${genc}\r\n`
+              `HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: ${Buffer.byteLength(genc)}\r\n\r\n${genc}\r\n`
             );
           }
           else { // handling normal echo requests like curl -v http://localhost:4221/echo/blueberry
