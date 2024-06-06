@@ -5,6 +5,13 @@ const fs = require('node:fs');
 console.log("Logs from your program will appear here!");
 
 // Uncomment this to pass the first stage
+const args = process.argv;
+const directoryIndex = args.indexOf('--directory');
+if (directoryIndex === -1 || directoryIndex + 1 >= args.length) {
+    console.error('Directory argument not provided or incorrect.');
+    process.exit(1);
+}
+const directory = args[directoryIndex + 1];
 
     const server = net.createServer((socket) => {
 
@@ -30,7 +37,6 @@ console.log("Logs from your program will appear here!");
               socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${ua.length}\r\n\r\n${ua}`);
             }
               else if (url.startsWith("/files/")) {
-                const directory = process.argv[3];
                 const filename = url.split("/files/")[1];
                 if (fs.existsSync(`${directory}/${filename}`)) {
                   const content = fs.readFileSync(`${directory}/${filename}`).toString();
