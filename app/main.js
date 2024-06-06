@@ -27,7 +27,7 @@ console.log("Logs from your program will appear here!");
               socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${l}\r\n\r\n${str}`);
             }
             else if (url == "/user-agent") {
-              header = request.split("\r\n")[2];
+              header = request.split("\r\n")[3];
               const ua = header.split(": ")[1];
               socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${ua.length}\r\n\r\n${ua}`);
             }
