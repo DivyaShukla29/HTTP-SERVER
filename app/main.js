@@ -12,10 +12,7 @@ const server = net.createServer((socket) => {
     let header;
     const url = request.split(" ")[1]; // spliting the string to get the url ..split (" ")- returns an arry of these
     // elements GET, /echo/str -> (url), HTTP / 1.1
-    if (request.split("\r\n").length > 1) {
-       header= request.split("\r\n")[2];
-         
-    }
+    
     
     if (url == "/"){
       socket.write("HTTP/1.1 200 OK\r\n\r\n");
@@ -26,6 +23,7 @@ const server = net.createServer((socket) => {
       socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${l}\r\n\r\n${str}`);
     }
     else if (url == "/user-agent") {
+      header= request.split("\r\n")[2];  
       const ua = header.split(": ")[1];
       socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${ua.length}\r\n\r\n${ua}`);
       }
