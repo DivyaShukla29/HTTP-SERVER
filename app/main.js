@@ -1,5 +1,6 @@
 const fs = require("fs");
 const net = require("net");
+const zlib = require('zlib');
 console.log("Logs from your program will appear here!");
 const server = net.createServer((socket) => {
   socket.on("close", () => {
@@ -41,9 +42,10 @@ const server = net.createServer((socket) => {
         let encodingHeader = requestArray.find(e => e.includes('Accept-Encoding'))?.split(': ')[1];
         if (encodingHeader) {
           encodingHeader = encodingHeader.split(", ");
-          if (encodingHeader.find(e => e.includes("gzip"))) { // adding content encoding header
+          if (encodingHeader.find(e => e.includes("gzip"))) {// adding content encoding header
+            var genc = zlib.gzipSync(res);
             socket.write(
-              `HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
+              `HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: ${genc.length}\r\n\r\n${genc}\r\n`
             );
           }
           else { // handling normal echo requests like curl -v http://localhost:4221/echo/blueberry
