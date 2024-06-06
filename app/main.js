@@ -35,9 +35,10 @@ const server = net.createServer((socket) => {
         });
       } else if (path.startsWith("/echo/")) {
         const res = path.split("/echo/")[1];
-        const enc = req.split("\r\n")[3];
-        console.log(enc);
-        if (enc.split(": ")[1] == "gzip") {
+        // const enc = req.split("\r\n")[3];
+        let requestArray = req.split("\r\n")
+        const encodingHeader = requestArray.find(e => e.includes('Accept-Encoding'))?.split(': ')[1];
+        if (encodingHeader == "gzip") {
           socket.write(
             `HTTP/1.1 200 OK\r\nContent-Encoding : gzip\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
           );
