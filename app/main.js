@@ -37,7 +37,7 @@ const server = net.createServer((socket) => {
         const res = path.split("/echo/")[1];
         // const enc = req.split("\r\n")[3];
         let requestArray = req.split("\r\n")
-        const encodingHeader = requestArray.find(e => e.includes('Accept-Encoding'))?.split(': ')[1];
+       let encodingHeader = requestArray.find(e => e.includes('Accept-Encoding'))?.split(': ')[1];
         encodingHeader = encodingHeader.split(", ");
         if (encodingHeader.find(e=>e.includes("gzip"))) { // adding content encoding header
           socket.write(
