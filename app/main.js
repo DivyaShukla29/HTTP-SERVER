@@ -36,13 +36,21 @@ const server = net.createServer((socket) => {
       } else if (path.startsWith("/echo/")) {
         const res = path.split("/echo/")[1];
         // const enc = req.split("\r\n")[3];
-        let requestArray = req.split("\r\n")
-       let encodingHeader = requestArray.find(e => e.includes('Accept-Encoding'))?.split(': ')[1];
-        encodingHeader = encodingHeader.split(", ");
-        if (encodingHeader.find(e=>e.includes("gzip"))) { // adding content encoding header
-          socket.write(
-            `HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
-          );
+        let requestArray = req.split("\r\n");
+        
+        let encodingHeader = requestArray.find(e => e.includes('Accept-Encoding'))?.split(': ')[1];
+        if (encodingHeader) {
+          encodingHeader = encodingHeader.split(", ");
+          if (encodingHeader.find(e => e.includes("gzip"))) { // adding content encoding header
+            socket.write(
+              `HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
+            );
+          }
+          else {
+            socket.write(
+              `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
+            );
+          }
         }
         else {
           socket.write(
@@ -50,7 +58,6 @@ const server = net.createServer((socket) => {
           );
         }
       }
-
     
     
     
