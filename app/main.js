@@ -10,7 +10,6 @@ const server = net.createServer((socket) => {
     console.log(req);
     const path = req.split(" ")[1];
     if (path === "/") socket.write("HTTP/1.1 200 OK\r\n\r\n");
-    else if (path === "/user-agent") {
     else if (path.startsWith("/files/")) {
       const directory = process.argv[3];
       const filename = path.split("/files/")[1];
