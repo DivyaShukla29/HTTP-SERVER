@@ -14,8 +14,7 @@ const server = net.createServer((socket) => {
     // elements GET, /echo/str -> (url), HTTP / 1.1
     if (request.split("\r\n").length > 1) {
        header= request.split("\r\n")[2];
-      header = JSON.parse(header);
-
+         
     }
     
     if (url == "/"){
@@ -27,7 +26,7 @@ const server = net.createServer((socket) => {
       socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${l}\r\n\r\n${str}`);
     }
     else if (url == "/user-agent") {
-      const ua = header.User-Agent;
+      const ua = header.split(": ")[1];
       socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${ua.length}\r\n\r\n${ua}`);
       }
     else {
