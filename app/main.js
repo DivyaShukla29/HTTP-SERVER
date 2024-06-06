@@ -39,12 +39,13 @@ console.log("Logs from your program will appear here!");
   
   
   
-          socket.on("close", () => {
-            socket.end();
-            server.close();
-          });
-
+         
         }
+        socket.on("close", () => {
+          socket.end();
+          server.close();
+        });
+
 
         
     })
