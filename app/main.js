@@ -7,16 +7,17 @@ console.log("Logs from your program will appear here!");
 const server = net.createServer((socket) => {
    
   socket.on('data', (data) => {
-    const request = data.toString();
-    console.log("Request: \n" + request);
+    const request = data.toString(); // converting the raw buffer data to string 
+    console.log("Request: \n" + request); 
+    let header;
+    const url = request.split(" ")[1]; // spliting the string to get the url ..split (" ")- returns an arry of these
+    // elements GET, /echo/str -> (url), HTTP / 1.1
+    if (request.split("\r\n").length > 1) {
+       header= request.split("\r\n")[2];
+      header = JSON.parse(header);
 
-    // if (request.startsWith("GET / ")) {
-    //     socket.write("HTTP/1.1 200 OK\r\n\r\n");
-    // }
-    // else {
-    //     socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
-    // }
-    const url = request.split(" ")[1];  
+    }
+    
     if (url == "/"){
       socket.write("HTTP/1.1 200 OK\r\n\r\n");
     }
@@ -25,17 +26,16 @@ const server = net.createServer((socket) => {
       const l = str.length;
       socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${l}\r\n\r\n${str}`);
     }
+    else if (url == "/user-agent") {
+      const ua = header.User-Agent;
+      socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${ua.length}\r\n\r\n${ua}`);
+      }
     else {
       socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
     }
         
-        
-    
-       
+          
   });
-
-
-
 
 
 
