@@ -35,9 +35,17 @@ const server = net.createServer((socket) => {
         });
       } else if (path.startsWith("/echo/")) {
         const res = path.split("/echo/")[1];
-        socket.write(
-          `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n\r`
-        );
+        const enc = req.split("\r\n")[3];
+        if (enc.split(": ")[1] == "gzip") {
+          socket.write(
+            `HTTP/1.1 200 OK\r\nContent-Encoding : gzip\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n\r`
+          );
+        }
+        else {
+          socket.write(
+            `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n\r`
+          );
+        }
       }
 
     
@@ -49,10 +57,11 @@ const server = net.createServer((socket) => {
       if (path.startsWith("/files/")) {
         const directory = process.argv[3];
         if (!fs.existsSync(directory)) {
-          fs.mkdirSync(directory, { recursive: true });
+          fs.mkdirSync(directory, { recursive: true }); // in case the directory does not exist create it 
         }
         const filename = path.split("/files/")[1];
-        const content = req.split("\r\n\r\n")[1];
+        const content = req.split("\r\n\r\n")[1];  // getting the content from the body we can also get it by  const req = data.toString().split("\r\n");
+        //const body = req[req.length - 1]; 
         fs.writeFileSync(`${directory}/${filename}`, content);
         socket.write("HTTP/1.1 201 Created\r\n\r\n");
       }
