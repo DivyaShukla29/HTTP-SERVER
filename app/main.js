@@ -6,8 +6,6 @@ console.log("Logs from your program will appear here!");
 // Uncomment this to pass the first stage
 
     const server = net.createServer((socket) => {
-      server.getConnections((count, err) => {
-        for (var i = 0; i < count; i++) {
 
           socket.on('data', (data) => {
             const request = data.toString(); // converting the raw buffer data to string 
@@ -36,19 +34,18 @@ console.log("Logs from your program will appear here!");
           
             
           });
-  
-  
-  
          
-        }
-        socket.on("close", () => {
-          socket.end();
-          server.close();
-        });
-
-
         
-    })
+          socket.on("error", () => {
+            console.warn(error);
+            socket.write("HTTP/1.1 500\r\n\r\n");
+            socket.end();
+          });
+          socket.on("close", () => {
+            socket.end();
+            server.close();
+          });
+        });
     //   socket.on('data', (data) => {
     //     const request = data.toString(); // converting the raw buffer data to string 
     //     console.log("Request: \n" + request); 
@@ -83,6 +80,6 @@ console.log("Logs from your program will appear here!");
     //   socket.end();
     //   server.close();
     // });
-  })
+  // })
 
 server.listen(4221, "localhost");
