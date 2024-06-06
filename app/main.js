@@ -31,9 +31,11 @@ console.log("Logs from your program will appear here!");
             }
             else if (url.startsWith("/files/")) {
               const file = url.split("/files/")[1];
-              fs.readFile(file, 'utf8', (err, data) => {
+              const filePath = `./${file}`;
+              fs.readFile(filePath, 'utf8', (err, data) => {
                 if (err) {
                   socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
+                  console.log(err);
                 }
                 else {
                   const contentLength = Buffer.byteLength(data, 'utf8');
