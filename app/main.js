@@ -53,7 +53,7 @@ const server = net.createServer((socket) => {
         }
         const filename = path.split("/files/")[1];
         const content = req.split("\r\n\r\n")[1];
-        fs.writeFileSync('${directory}/${filename}', content);
+        fs.writeFileSync(`${directory}/${filename}`, content);
         socket.write("HTTP/1.1 201 \r\n\r\n");
       }
       else {
