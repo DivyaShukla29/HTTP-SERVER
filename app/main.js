@@ -35,9 +35,9 @@ console.log("Logs from your program will appear here!");
                 if (err) {
                   socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
                 }
-                else {
+              
                   socket.write(`HTTP / 1.1 200 OK\r\nContent - Type: application / octet - stream\r\nContent - Length: ${ file.files.length }\r\n\r\n${data}`)
-                }
+                
               });
               }
               
