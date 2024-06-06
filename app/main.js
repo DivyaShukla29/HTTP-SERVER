@@ -29,8 +29,7 @@ console.log("Logs from your program will appear here!");
               const ua = header.split(": ")[1];
               socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${ua.length}\r\n\r\n${ua}`);
             }
-            else if (path === "/user-agent") {
-              else if (path.startsWith("/files/")) {
+              else if (url.startsWith("/files/")) {
                 const directory = process.argv[3];
                 const filename = path.split("/files/")[1];
                 if (fs.existsSync(`${directory}/${filename}`)) {
@@ -40,11 +39,6 @@ console.log("Logs from your program will appear here!");
                 } else {
                   socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
                 }
-                else {
-                  const contentLength = Buffer.byteLength(data, 'utf8');
-                  socket.write(`HTTP / 1.1 200 OK\r\nContent - Type: application / octet - stream\r\nContent - Length: ${contentLength}\r\n\r\n${data}`)
-                }
-              });
               }
               
               
