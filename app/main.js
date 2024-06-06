@@ -16,9 +16,18 @@ const server = net.createServer((socket) => {
     // }
     const arr = request.split(" ");  
     const req = arr[1].split("/");
-    const str = req[2];
-    const l = str.length;
-    
+   let str = "";
+        let l = 0;
+
+        // Ensure there are enough parts in the request line
+        if (arr.length > 1) {
+            const req = arr[1].split("/");
+            // Ensure the URL has at least 3 segments (["", "echo", "abc"])
+            if (req.length > 2) {
+                str = req[2];
+                l = str.length;
+            }
+        }
    
     socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${l}\r\n\r\n${str}`);
        
