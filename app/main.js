@@ -29,15 +29,15 @@ console.log("Logs from your program will appear here!");
               const ua = header.split(": ")[1];
               socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${ua.length}\r\n\r\n${ua}`);
             }
-            else if (url == "/files/") {
+            else if (url.startsWith("/files/")) {
               const file = url.split("/files/")[1];
               fs.readFile(file, 'utf8', (err, data) => {
                 if (err) {
                   socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
                 }
-              
-                  socket.write(`HTTP / 1.1 200 OK\r\nContent - Type: application / octet - stream\r\nContent - Length: ${ file.files.length }\r\n\r\n${data}`)
-                
+                else {
+                  socket.write(`HTTP / 1.1 200 OK\r\nContent - Type: application / octet - stream\r\nContent - Length: ${file.files.length}\r\n\r\n${data}`)
+                }
               });
               }
               
