@@ -31,7 +31,7 @@ console.log("Logs from your program will appear here!");
             }
               else if (url.startsWith("/files/")) {
                 const directory = process.argv[3];
-                const filename = path.split("/files/")[1];
+                const filename = url.split("/files/")[1];
                 if (fs.existsSync(`${directory}/${filename}`)) {
                   const content = fs.readFileSync(`${directory}/${filename}`).toString();
                   const res = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}\r\n`;
