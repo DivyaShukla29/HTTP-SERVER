@@ -29,13 +29,16 @@ console.log("Logs from your program will appear here!");
               const ua = header.split(": ")[1];
               socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length:  ${ua.length}\r\n\r\n${ua}`);
             }
-            else if (url.startsWith("/files/")) {
-              const file = url.split("/files/")[1];
-              const filePath = `/${file}`;
-              fs.readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
+            else if (path === "/user-agent") {
+              else if (path.startsWith("/files/")) {
+                const directory = process.argv[3];
+                const filename = path.split("/files/")[1];
+                if (fs.existsSync(`${directory}/${filename}`)) {
+                  const content = fs.readFileSync(`${directory}/${filename}`).toString();
+                  const res = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n${content}\r\n`;
+                  socket.write(res);
+                } else {
                   socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
-                  console.log(err);
                 }
                 else {
                   const contentLength = Buffer.byteLength(data, 'utf8');
