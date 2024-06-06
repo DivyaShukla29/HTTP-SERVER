@@ -38,12 +38,12 @@ const server = net.createServer((socket) => {
         const enc = req.split("\r\n")[3];
         if (enc.split(": ")[1] == "gzip") {
           socket.write(
-            `HTTP/1.1 200 OK\r\nContent-Encoding : gzip\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n\r`
+            `HTTP/1.1 200 OK\r\nContent-Encoding : gzip\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
           );
         }
         else {
           socket.write(
-            `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n\r`
+            `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
           );
         }
       }
