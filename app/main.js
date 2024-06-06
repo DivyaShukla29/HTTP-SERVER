@@ -31,7 +31,7 @@ console.log("Logs from your program will appear here!");
             }
             else if (url.startsWith("/files/")) {
               const file = url.split("/files/")[1];
-              const filePath = `./${file}`;
+              const filePath = `/${file}`;
               fs.readFile(filePath, 'utf8', (err, data) => {
                 if (err) {
                   socket.write("HTTP/1.1 404 Not Found\r\n\r\n");
