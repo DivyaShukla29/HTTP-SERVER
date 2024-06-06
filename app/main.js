@@ -40,7 +40,7 @@ const server = net.createServer((socket) => {
         const encodingHeader = requestArray.find(e => e.includes('Accept-Encoding'))?.split(': ')[1];
         if (encodingHeader == "gzip") {
           socket.write(
-            `HTTP/1.1 200 OK\r\nContent-Encoding : gzip\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
+            `HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: ${res.length}\r\n\r\n${res}\r\n`
           );
         }
         else {
